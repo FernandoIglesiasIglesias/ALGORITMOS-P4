@@ -1,0 +1,154 @@
+
+----- AUTORES: ------
+ - Fernando Iglesias Iglesias  LOGIN: f.iglesias2@udc.es
+ - Anxo Gallego Mato           LOGIN: anxo.gallego@udc.es
+ - Luis López García           LOGIN: luis.lopez.garcia@udc.es
+ 
+----- INTRODUCCIÓN: -----
+  
+  En esta práctica se implementarán una serie de operaciones sobre montículos de máximos, para así estudiar la complejidad de la operación "crear_monticulo" y demostrar que se ejecuta en un tiempo O(n).
+  
+  Además se implementará el algoritmo de ordenación por montículos y calculará empíricamente su complejidad en tres situaciones distintas: dado un vector ya ordenado de manera ascendente, dado un vector ya ordenado de manera descendente y dado un vector generado aleatoriamente.
+  
+----- TEST FUNCIONES -----
+
+Creamos un monticulo con el siguiente vector:
+5, 4, 3, 5, 7, 8, 5, 9, 8, 15, 12, 13, 
+Quedando el siguiente monticulo: 
+15, 12, 13, 9, 7, 8, 5, 5, 8, 5, 4, 3, 
+Eliminamos el elemento mayor, quedando el siguiente monticulo: 
+13, 12, 8, 9, 7, 3, 5, 5, 8, 5, 4, 
+
+Comprobamos el funcionamiento de ordenacion por monticulos:
+Vector generado aleatoriamente (sin ordenar) de 15 elementos:
+-13, 13, -11, 10, -11, -3, 7, -2, -2, -10, -5, 4, 10, -11, 8, 
+Vector ordenado:
+-13, -11, -11, -11, -10, -5, -3, -2, -2, 4, 7, 8, 10, 10, 13,
+   
+----- INFORMACIÓN DE LA MÁQUINA: -----
+
+-La máquina utilizada para realizar los cálculos de los tiempos es la siguiente:
+
+-Máquina: Intel Core i7-1065G7
+-En el sistema operativo: Linux Ubuntu 22.04
+-Kernel: 5.15.0-52-generic
+
+-Obteniendo los siguientes resultados:
+
+----- ACLARACIONES: -----
+
+-Todas las unidades de tiempo están medidas en microsegundos.
+
+-El valor de n sigue una progresión geométrica de razón dos. Para la demostración de la complejidad de crear_monticulo (se ha utilizado un vector ya ordenado ascendentemente, como se recomendaba en el enunciado de la práctica) comienza desde 1000 y acaba en 256000 y para calcular la complejidad de ordenacion por montículos n comienza en 500 y finaliza en 64000.
+
+-Los (*) que se encuentran a la izquierda de algunos tiempos quieren decir que el tiempo de ejecucion para ese valor de n es inferior a los 500 microsegundos.
+Esto implica que el algoritmo se repitió 1000 (contante K) veces y posteriormente se calculó una media.
+
+----- DEMOSTRACIÓN COMPLEJIDAD CREAR MONTÍCULO -----
+
+Tabla para demostrar la complejidad de crear monticulo O(n):
+         n      t(n)      t(n)/f(n)     t(n)/g(n)     t(n)/h(n)
+(*)   1000    30.188         0.0602        0.0302       0.00758 (#)
+(*)   2000    54.654         0.0584        0.0273       0.00598 
+(*)   4000   103.342         0.0592        0.0258       0.00492
+(*)   8000   202.752         0.0623        0.0253       0.00420
+(*)  16000   405.702         0.0668        0.0254       0.00366
+     32000   900.000         0.0794        0.0281       0.00353 (#)
+     64000  1589.000         0.0751        0.0248       0.00271
+    128000  3365.000         0.0852        0.0263       0.00250
+    256000  6586.000         0.0894        0.0257       0.00213
+
+-COTAS:
+c. subestimada:  n^0.9  ;   f(n)
+c. ajustada:     n      ;   g(n)
+c. sobrestimada: n^1.2  ;   h(n)
+
+(#) ANOMALIAS:
+-Se pueden observar dos anomalías para los valores de n=1000 y n=32000 (#) que no se ha podido impedir, que se salen ligeramente del valor aproximado de la cota ajustada.
+
+-OBSERVACIONES:
+-Los resultados de la cota subestimada nos ofrece unos valores ascendentes.
+-Al contrario ocurre con la sobrestimada, pues decrecen.
+-Y la cota ajustada se aproxima 0.0257
+
+----- ANÁLISIS TIEMPOS ORDENACIÓN POR MONTÍCULOS -----
+
+Tabla tiempos ordenacion vector ascendente:
+         n      t(n)      t(n)/f(n)     t(n)/g(n)     t(n)/h(n)
+(*)    500    73.572         0.2419        0.0237       0.01225
+(*)   1000   176.017         0.3059        0.0255       0.01111
+(*)   2000   412.787         0.3791        0.0272       0.00987
+      4000   980.000         0.4757        0.0295       0.00888 (#)
+      8000  2002.000         0.5136        0.0278       0.00687
+     16000  4007.000         0.5433        0.0259       0.00521
+     32000  8596.000         0.6160        0.0259       0.00424
+     64000 18171.000         0.6882        0.0257       0.00339
+
+-COTAS:
+c. subestimada:  n^0.92    ;   f(n)
+c. ajustada:     n*log(n)  ;   g(n)
+c. sobrestimada: n^1.4     ;   h(n)
+
+(#) ANOMALIAS:
+-Se puede observar una ligera anomalía para n=4000 (#), la cual no se ha podido impedir, que se desvía ligeramente del valor aproximado de la cota ajustada.
+
+-OBSERVACIONES:
+-Los resultados de la cota subestimada nos ofrece unos valores ascendentes.
+-Al contrario ocurre con la sobrestimada, pues decrecen.
+-Y la cota ajustada se aproxima 0.0257
+
+Tabla tiempos ordenacion vector descendente:
+         n      t(n)      t(n)/f(n)     t(n)/g(n)     t(n)/h(n)
+(*)    500    64.648         0.2126        0.0208       0.01076 (#)
+(*)   1000   152.912         0.2657        0.0221       0.00965 (#)
+(*)   2000   385.266         0.3538        0.0253       0.00921
+      4000   890.000         0.4320        0.0268       0.00806
+      8000  1854.000         0.4756        0.0258       0.00636
+     16000  3922.000         0.5318        0.0253       0.00510
+     32000  8432.000         0.6042        0.0254       0.00416
+     64000 17710.000         0.6707        0.0250       0.00331
+
+-COTAS:
+c. subestimada:  n^0.92    ;   f(n)
+c. ajustada:     n*log(n)  ;   g(n)
+c. sobrestimada: n^1.4     ;   h(n)
+
+(#) ANOMALIAS:
+-Se puede observar dos ligeras anomalías para n=500 y n=1000 (#), que no se han logrado impedir, que se quedan ligeramente por debajo del valor aproximado de la cota ajustada.
+
+-OBSERVACIONES:
+-Los resultados de la cota subestimada nos ofrece unos valores ascendentes.
+-Al contrario ocurre con la sobrestimada, pues decrecen.
+-Y la cota ajustada se aproxima 0.025
+
+Tabla tiempos ordenacion vector generado aleatoriamente:
+         n      t(n)      t(n)/f(n)     t(n)/g(n)     t(n)/h(n)
+(*)    500   110.323         0.3628        0.0355       0.01837 (#)
+(*)   1000   233.481         0.4057        0.0338       0.01473
+      2000   502.000         0.4611        0.0330       0.01200
+      4000  1141.000         0.5538        0.0344       0.01034
+      8000  2420.000         0.6208        0.0337       0.00831
+     16000  5178.000         0.7021        0.0334       0.00674
+     32000 11207.000         0.8031        0.0338       0.00552
+     64000 24132.000         0.9139        0.0341       0.00451
+
+-COTAS:
+c. subestimada:  n^0.92    ;   f(n)
+c. ajustada:     n*log(n)  ;   g(n)
+c. sobrestimada: n^1.4     ;   h(n)
+
+(#) ANOMALIAS:
+-Se puede observar una ligera anomalía para n=1000 (#), la cual no se ha podido impedir, que se desvía ligeramente del valor aproximado de la cota ajustada.
+
+-OBSERVACIONES:
+-Los resultados de la cota subestimada nos ofrece unos valores ascendentes.
+-Al contrario ocurre con la sobrestimada, pues decrecen.
+-Y la cota ajustada se aproxima 0.034
+
+----- CONCLUSIONES: -----
+
+-Analizando la tabla de tiempos para demostar la complejidad de la operación crear montículo vemos que se obtiene un buen valor aproxiamado para la cota ajustada (n) con lo que podemos afirmar que dicha operación tiene un complejidad lineal O(n).
+
+-Además podemos observar que el algoritmo de ordenación por montículos para los 3 casos (vector ascendente, descendente y aleatorio) tiene una complejidad de orden O(n*log(n))
+
+-Otra conclusión a resaltar es que el vector que más rápido se ordena es el vector descendente, después el ascendente y el que más tarda es el generado aleatoriamente, además por notable diferencia respecto a los vectores ascendentes y descendentes.
